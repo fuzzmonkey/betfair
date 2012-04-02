@@ -20,9 +20,7 @@ class SimpleBot
   SPORTS_IDS          = [7]                     # Array of the sports ids you want
   LOCALE              = nil                     # What coutry are you in? Dont really use this
   COUNTRIES           = ['GBR']                 # Array of countries you wish to check for
-  FROM_DATE           = Time.now.utc            # Time you want to start checking from in UTC (which is basically GMT, which is the Betfair API time)
-  TO_DATE             = 30.minutes.from_now.utc # How far out do you want to look for markets
-  
+
   MARKET_NAMES_INGORE = ['To Be Placed']        # Array of markets to ignore
   MARKET_TYPE         = 'O'                     # Not sure what this is
   MARKET_STATUS       = 'ACTIVE'                # Active market types
@@ -56,7 +54,7 @@ class SimpleBot
           LOGGER.info("Keep alive - #{token}")
                          
           LOGGER.info 'Fetching markets'
-          markets = BF.get_all_markets(token, EXCHANGE_ID, SPORTS_IDS, LOCALE, COUNTRIES, FROM_DATE, TO_DATE)     
+          markets = BF.get_all_markets(token, EXCHANGE_ID, SPORTS_IDS, LOCALE, COUNTRIES, Time.now.utc, 30.minutes.from_now.utc)     
           
           if markets.is_a?(String) and markets != 'API_ERROR - NO_SESSION' # Markets returned correctly           
             check_markets(token, markets)            
