@@ -20,6 +20,8 @@ class SimpleBot
   SPORTS_IDS          = [7]                     # Array of the sports ids you want
   LOCALE              = nil                     # What coutry are you in? Dont really use this
   COUNTRIES           = ['GBR']                 # Array of countries you wish to check for
+  FROM_DATE           = nil                     # This needs to be set within the loop on line 59
+  TO_DATE             = nil                     # This needs to be set within the loop on line 59
 
   MARKET_NAMES_INGORE = ['To Be Placed']        # Array of markets to ignore
   MARKET_TYPE         = 'O'                     # Not sure what this is
