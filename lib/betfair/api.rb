@@ -216,7 +216,7 @@ module Betfair
                          :get_all_markets_response,
                          :eventTypeIds => { 'int' => event_type_ids }, 
                          :locale       => locale, 
-                         :countries    => { 'country' => countries }, 
+                         :countries    => { 'Country' => countries }, 
                          :fromDate     => from_date, 
                          :toDate       => to_date )
       

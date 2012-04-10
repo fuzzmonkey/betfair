@@ -27,8 +27,8 @@ class SimpleBot
   MARKET_TYPE         = 'O'                     # Not sure what this is
   MARKET_STATUS       = 'ACTIVE'                # Active market types
   NUMBER_OF_WINNERS   = 1                       # Only one winner per market
-  BSP_MARKET          = true                     # Starting price market ?
-  IN_PLAY             = 0                     # 0 means not in play, anything above this means in play
+  BSP_MARKET          = true                    # Starting price market ?
+  IN_PLAY             = 0                       # 0 means not in play, anything above this means in play
   
   ODDS                = 2.0                     # Bet on odds below this
   BET_SIDE            = 'L'                     # What type of bet, B for back and L for Lay
