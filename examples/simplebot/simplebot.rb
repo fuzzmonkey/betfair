@@ -153,7 +153,7 @@ class SimpleBot
     begin
       foo = []
       bets.each do |bet|
-        price = @helper.set_betfair_odds(bet[:b1], BET_PIP, false, false)[:prc]
+        price = @helpers.set_betfair_odds(bet[:b1], BET_PIP, false, false)[:prc]
         
         foo <<  { market_id: market_id, runner_id: bet[:selection_id], bet_type: BET_SIDE, price: price, size: BET_AMOUNT, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }   
