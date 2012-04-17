@@ -33,7 +33,7 @@ class SimpleBot
   ODDS                = 2.0                     # Bet on odds below this
   BET_SIDE            = 'L'                     # What type of bet, B for back and L for Lay
   BET_AMOUNT          = 2.0                     # Note this needs to be a minimum of $5 if you have an AUS account
-  BET_PIP             = 0.01                    # Place bet one pip above the ODDS I am checking for, ie this will try and lay 2.0 pounds on odds of 2.01
+  BET_PIP             = 1                       # Place bet one pip above the ODDS I am checking for, ie this will try and lay 2.0 pounds on odds of 2.01
   
   BF                  = Betfair::API.new        # Initialize BF API methods
   HELPERS             = Betfair::Helpers.new    # Initialize Helper API methods
@@ -153,7 +153,9 @@ class SimpleBot
     begin
       foo = []
       bets.each do |bet|
-        foo <<  { market_id: market_id, runner_id: bet[:selection_id], bet_type: BET_SIDE, price: bet[:b1]+BET_PIP.to_f, size: BET_AMOUNT, asian_line_id: 0, 
+        price = @helper.set_betfair_odds(bet[:b1], BET_PIP, false, false)[:prc]
+        
+        foo <<  { market_id: market_id, runner_id: bet[:selection_id], bet_type: BET_SIDE, price: price, size: BET_AMOUNT, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }   
       end   
       bets = BF.place_multiple_bets(token, exchange_id, foo)    
