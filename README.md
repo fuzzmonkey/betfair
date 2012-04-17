@@ -332,6 +332,35 @@ foo.first returns
     { :prices_string=>nil, :runner_matched=>0, :last_back_price=>0, :wom=>0.6054936499440416, :b1=>4.2, :b1_available=>430.35, :b2=>4.1, :b2_available=>311.51, :b3=>3.85, 
       :b3_available=>4.75, :l1=>4.4, :l1_available=>155.46, :l2=>4.6, :l2_available=>230.69, :l3=>5.9, :l3_available=>100.3
     }
+
+
+## Set Betfair Odds ##
+Method for dealing with calculating the Betfair increments from a price passed in.
+
+    set_betfair_odds(price, pips = 0, round_up = false, round_down = false)
+    
+    helpers.set_betfair_odds(2.31, 1, false, false)
+    
+    { :price=>2.31, :prc=>2.34, :pips=>1, :increment=>0.02 }
+    
+    helpers.set_betfair_odds(2.31, 1, false, true)
+    
+    { :price=>2.31, :prc=>2.32, :pips=>1, :increment=>0.02 }
+    
+    helpers.set_betfair_odds(2.31, 1, false, true)
+    
+    { :price=>2.31, :prc=>2.32, :pips=>1, :increment=>0.02 }
+    
+    helpers.set_betfair_odds(132, 0, false, true)
+    
+    { :price=>132.0, :prc=>130.0, :pips=>0, :increment=>10 }
+
+## Get Odds Spead ##
+
+Work out the distance between a high and low spread. Useful for when the B1 and L1 are miles apart and you are 
+trying to set a threshold on when to place a bet.
+
+    helpers.get_odds_spread(1.28, 3.43)
     
 # Extra 
 ## API Limits ##
