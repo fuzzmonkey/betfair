@@ -42,12 +42,12 @@ as the UK.
 At the heart of the Betfair API is the `session_token`. In order to
 get one of these simply call:
 
-    username = 'foo'
-    password = 'bar'
-    product_id = 82
-    vendor_software_id = 0
-    location_id = 0
-    ip_address = nil
+    username            = 'foo'
+    password            = 'bar'
+    product_id          = 82
+    vendor_software_id  = 0
+    location_id         = 0
+    ip_address          = nil
 
     session_token = bf.login(username, password, product_id, vendor_software_id, location_id, ip_address)
 
@@ -172,14 +172,14 @@ The API PlaceBets service allows you to place multiple (1 to 60) bets on a singl
 ## Update Bet ##
 The API UpdateBets service allows you to edit multiple (1 to 15) bets on a single Market.
 
-    exchange_id = 1
-    bet_id: 1234, 
-    new_bet_persistence_type = 'NONE'
-    new_price = 10.0
-    new_size = 10.0 
-    old_bet_persistence_type = 'NONE'
-    old_price= 5.0
-    old_size = 5.0
+    exchange_id               = 1
+    bet_id                    = 1234, 
+    new_bet_persistence_type  = 'NONE'
+    new_price                 = 10.0
+    new_size                  = 10.0 
+    old_bet_persistence_type  = 'NONE'
+    old_price                 = 5.0
+    old_size                  = 5.0
 
     update_bet = 
       bf.update_bet(session_token, exchange_id, bet_id, new_bet_persistence_type, new_price, new_size, old_bet_persistence_type, old_price, old_size)
@@ -188,7 +188,7 @@ The API UpdateBets service allows you to edit multiple (1 to 15) bets on a singl
 The API UpdateBets service allows you to edit multiple (1 to 15) bets on a single Market.
 
     exchange_id = 1
-    bets = []
+    bets        = []
     bets << { bet_id: 1234, new_bet_persistence_type: 'NONE', new_price: 10.0, new_size: 10.0, 
               old_bet_persistence_type: 'NONE', old_price: 5.0, old_size: 5.0 }
     bets << { bet_id: 1235, new_bet_persistence_type: 'NONE', new_price: 2.0, new_size: 10.0, 
@@ -247,7 +247,7 @@ This function does the same as the #all_markets method. Not sure how/why it has 
 duplicated, but it has so here is how it works.
 
     all_markets = bf.get_all_markets(session_token, 2, [61420], nil, nil, nil, nil)
-    foo = helpers.split_markets_string(all_markets)
+    foo         = helpers.split_markets_string(all_markets)
 
 The output looks a little different to the #all_markets method.
 
@@ -262,8 +262,8 @@ foo.first returns
 ## Market Info ##
 This helper sorts out a nice hash from the 
     
-    market = bf.get_market(session_token, 2, 100388290)
-    foo = helpers.market_info(details)
+    market  = bf.get_market(session_token, 2, 100388290)
+    foo     = helpers.market_info(details)
 
 Which returns
 
@@ -272,15 +272,15 @@ Which returns
 ## Prices ##
 This helper cleans up the prices
 
-    prices = bf.get_market_prices_compressed(session_token, 2, 100388290)
-    foo = helpers.prices(prices)
+    prices  = bf.get_market_prices_compressed(session_token, 2, 100388290)
+    foo     = helpers.prices(prices)
 
 ## Combine ##
 Use this to combine `runner_names` and prices from the #market_info and #prices helpers
     
-    market = bf.get_market(session_token, 2, 100388290)
-    prices = bf.get_market_prices_compressed(session_token, 2, 100388290)    
-    foo = helpers.combine(market, prices)
+    market  = bf.get_market(session_token, 2, 100388290)
+    prices  = bf.get_market_prices_compressed(session_token, 2, 100388290)    
+    foo     = helpers.combine(market, prices)
 
 foo.first returns
 
@@ -293,8 +293,8 @@ foo.first returns
 ## Details ##
 Gets the `market_id`/`market_name` and the `runner_id`/`runner_name` 
 
-    market = bf.get_market(session_token, 2, 100388290)
-    foo = helpers.details(market)
+    market  = bf.get_market(session_token, 2, 100388290)
+    foo     = helpers.details(market)
 
 Which returns
 
@@ -313,8 +313,8 @@ Which returns
 ## Prices Complete ##
 Helper to deal with the prices string from a market.
 
-    prices = bf.get_market_prices_compressed(session_token, 2, 100388290)
-    foo = helpers.prices_complete(prices)
+    prices  = bf.get_market_prices_compressed(session_token, 2, 100388290)
+    foo     = helpers.prices_complete(prices)
 
 foo.first returns 
     
@@ -326,8 +326,8 @@ foo.first returns
 
 ## Prices String ##
 
-    prices = bf.get_market_prices_compressed(session_token, 2, 100388290)
-    foo = helpers.price_string(prices, true)
+    prices  = bf.get_market_prices_compressed(session_token, 2, 100388290)
+    foo     = helpers.price_string(prices, true)
 
     { :prices_string=>nil, :runner_matched=>0, :last_back_price=>0, :wom=>0.6054936499440416, :b1=>4.2, :b1_available=>430.35, :b2=>4.1, :b2_available=>311.51, :b3=>3.85, 
       :b3_available=>4.75, :l1=>4.4, :l1_available=>155.46, :l2=>4.6, :l2_available=>230.69, :l3=>5.9, :l3_available=>100.3
