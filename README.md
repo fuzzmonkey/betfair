@@ -375,6 +375,7 @@ trying to set a threshold on when to place a bet.
 * rake
 
 ## To Do ##
+* Work out how to implement this https://github.com/jfairbairn/em-net-http, so that the libary uses eventmachine no blocking
 * The WOM of money in Helpers#price_string returns 0 if either all b1,b2,b3 or l1,l2,l3 are all 0
 * Add some error checking to the Betfair::Helper methods
 * Finish of the mash method, to return a nice hash of all market and runner info
