@@ -72,7 +72,7 @@ module Betfair
                          bets: { 'PlaceBets' => bf_bets } )
 
       return response.maybe_result( :bet_results, :place_bets_result )
-    end      
+    end
     
     def update_bet(session_token, exchange_id, bet_id, new_bet_persitence_type, new_price, new_size, old_bet_persitance_type, old_price, old_size)
        bf_bet = {
@@ -174,7 +174,7 @@ module Betfair
         session_request( session_token,
                          :getMarket,
                          :get_market_response,
-                         marketId:  market_id, 
+                         marketId:  market_id,
                          locale:    locale )
 
       return response.maybe_result( :market )
@@ -313,7 +313,7 @@ module Betfair
 
 
       # Wrapper to avoid leaking Savon's logging API
-      def self.log=(logging); Savon.log = !!logging; end
+      def self.log=(logging); Savon.config.log = !!logging; end
 
 
       # Pass the `region` (see ENDPOINTS for valid values) to pick the
@@ -391,7 +391,7 @@ module Betfair
 
 
 
-  class Helpers  	  	
+  class Helpers
     
     ## HELPER METHODS
     #
@@ -506,8 +506,8 @@ module Betfair
 
     ##
     #
-    # Complete representation of market price data response, 
-    # except "removed runners" which is returned as raw string. 
+    # Complete representation of market price data response,
+    # except "removed runners" which is returned as raw string.
     #
     ##
     def prices_complete(prices)
@@ -586,7 +586,7 @@ module Betfair
         l2_available:     0,
         l3:               0,
         l3_available:     0
-      }    			
+      }
 
       if !string[0].nil? and !prices_only
         str = string[0].split('~')
@@ -617,7 +617,7 @@ module Betfair
         price[:l3]             = l[8].to_f if !l[8].nil?
         price[:l3_available]   = l[9].to_f if !l[9].nil?
         combined_l = price[:l1_available] + price[:l2_available] + price[:l3_available]
-      end			
+      end
 
       price[:wom] = combined_b / ( combined_b + combined_l ) unless combined_b.nil? or combined_l.nil?
 
