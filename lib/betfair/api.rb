@@ -313,7 +313,8 @@ module Betfair
 
 
       # Wrapper to avoid leaking Savon's logging API
-      def self.log=(logging); Savon.config.log = !!logging; end
+      def self.log=(logging); Savon.log = !!logging; end
+
 
       # Pass the `region` (see ENDPOINTS for valid values) to pick the
       # WSDL endpoint and namespace.  `proxy` should be a string URL
