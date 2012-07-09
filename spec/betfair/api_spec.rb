@@ -25,7 +25,7 @@ module Betfair
     describe "create a hash for the market details"  do
       it "pulls the relevant stuff out of market details and puts it in a hash" do
         savon.expects(:get_market).returns(:success)
-        market = @bf.get_market(@session_token, 2, 10038633)
+        market = @bf.get_market(@session_token, 2, 100388290)
         puts market.inspect
         
         market_info = @helpers.market_info(market)
@@ -36,8 +36,8 @@ module Betfair
     describe "cleans up the get market details"  do
       it "sort the runners for each market out " do
         savon.expects(:get_market).returns(:success)
-        market = @bf.get_market(@session_token, 2, 10038633)
-        puts markets.inspect
+        market = @bf.get_market(@session_token, 2, 100388290)
+        puts market.inspect
         
         details = @helpers.details(market)
         details.should_not be_nil        
@@ -47,7 +47,7 @@ module Betfair
     describe "get the price string for a runner"  do
       it "so that we can combine it together with market info" do
         savon.expects(:get_market_prices_compressed).returns(:success)
-        prices = @bf.get_market_prices_compressed(@session_token, 2, 10038633)
+        prices = @bf.get_market_prices_compressed(@session_token, 2, 100388290)
         puts prices.inspect
         
         prices = @helpers.prices(prices)
@@ -59,11 +59,11 @@ module Betfair
       it "combines the two api calls of get_market and get_market_prices_compressed " do
         
         savon.expects(:get_market).returns(:success)
-        market = @bf.get_market(@session_token, 2, 10038633)
+        market = @bf.get_market(@session_token, 2, 100388290)
         puts market.inspect
         
         savon.expects(:get_market_prices_compressed).returns(:success)
-        prices = @bf.get_market_prices_compressed(@session_token, 2, 10038633)
+        prices = @bf.get_market_prices_compressed(@session_token, 2, 100388290)
         puts prices.inspect
         
         combined = @helpers.combine(market, prices)
