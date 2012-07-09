@@ -204,7 +204,7 @@ module Betfair
     end
 
 
-    def get_all_markets(session_token, exchange_id, event_type_ids = nil, locale = nil, countries = nil, from_date = nil, to_date = nil)
+    def get_all_markets(session_token, exchange_id, event_type_ids = [], locale = nil, countries = [], from_date = nil, to_date = nil)
       response = exchange(exchange_id).
         session_request( session_token,
                          :getAllMarkets,
@@ -313,7 +313,7 @@ module Betfair
 
 
       # Wrapper to avoid leaking Savon's logging API
-      def self.log=(logging); Savon.log = !!logging; end
+      def self.log=(logging); Savon.config.log = !!logging; end
 
 
       # Pass the `region` (see ENDPOINTS for valid values) to pick the

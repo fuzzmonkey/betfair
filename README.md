@@ -263,7 +263,7 @@ foo.first returns
 This helper sorts out a nice hash from the 
     
     market  = bf.get_market(session_token, 2, 100388290)
-    foo     = helpers.market_info(details)
+    foo     = helpers.market_info(market)
 
 Which returns
 

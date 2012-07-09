@@ -1,11 +1,11 @@
 source 'http://rubygems.org'
 
 gem 'rake'
-gem 'savon', '0.9.7'
+gem 'savon'
 gem 'gemcutter'
 
 gem 'rspec'
-gem 'savon_spec', '0.1.6'
+gem 'savon_spec'
 
 gemspec
 
