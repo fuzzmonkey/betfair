@@ -155,7 +155,7 @@ class SimpleBot
       bets.each do |bet|
         price = @helpers.set_betfair_odds(bet[:b1], BET_PIP, false, false)[:prc]
         
-        foo <<  { market_id: market_id, runner_id: bet[:selection_id], bet_type: BET_SIDE, price: price, size: BET_AMOUNT, asian_line_id: 0, 
+        foo <<  { market_id: market_id, selection_id: bet[:selection_id], bet_type: BET_SIDE, price: price, size: BET_AMOUNT, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }   
       end   
       bets = BF.place_multiple_bets(token, exchange_id, foo)    

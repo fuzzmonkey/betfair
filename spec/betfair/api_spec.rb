@@ -94,9 +94,9 @@ module Betfair
       it "should place mutliple bets on the exchange via the api" do
         savon.expects(:place_bets).returns(:success)
         bets = []
-        bets <<  { market_id: 104184109, runner_id: 58805, bet_type: 'B', price: 2.0, size: 2.0, asian_line_id: 0, 
+        bets <<  { market_id: 104184109, selection_id: 58805, bet_type: 'B', price: 2.0, size: 2.0, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }
-        bets <<  { market_id: 104184109, runner_id: 12234, bet_type: 'L', price: 1.5, size: 2.0, asian_line_id: 0, 
+        bets <<  { market_id: 104184109, selection_id: 12234, bet_type: 'L', price: 1.5, size: 2.0, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }
         bets = @bf.place_multiple_bets(@session_token, 1, bets)       
         bets[:bet_id].should eq('16939643915')
@@ -107,9 +107,9 @@ module Betfair
       it "should return an error message" do
         savon.expects(:place_bets).returns(:fail)
         bets = []
-        bets <<  { market_id: 104184109, runner_id: 58805, bet_type: 'B', price: 2.0, size: 2.0, asian_line_id: 0, 
+        bets <<  { market_id: 104184109, selection_id: 58805, bet_type: 'B', price: 2.0, size: 2.0, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }  
-        bets <<  { market_id: 104184109, runner_id: 12234, bet_type: 'L', price: 1.5, size: 2.0, asian_line_id: 0, 
+        bets <<  { market_id: 104184109, selection_id: 12234, bet_type: 'L', price: 1.5, size: 2.0, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }                
         error_code = @bf.place_multiple_bets(@session_token, 1, bets)      
         error_code[:result_code].should eq('INVALID_SIZE')

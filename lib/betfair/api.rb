@@ -59,7 +59,7 @@ module Betfair
       bets.each do |bet|
         bf_bets << { 
           :marketId           => bet[:market_id], 
-          :selectionId        => bet[:runner_id], 
+          :selectionId        => bet[:selection_id], 
           :betType            => bet[:bet_type], 
           :price              => bet[:price], 
           :size               => bet[:size], 
@@ -470,7 +470,7 @@ module Betfair
 
     def details(market)
       runners = []
-      market[:runners][:runner].each { |runner| runners << { :runner_id => runner[:selection_id].to_i, :runner_name => runner[:name] } }
+      market[:runners][:runner].each { |runner| runners << { :selection_id => runner[:selection_id].to_i, :selection_name => runner[:name] } }
       return { :market_id => market[:market_id].to_i, :market_type_id => market[:event_type_id].to_i, :runners => runners }
     end
 
@@ -491,7 +491,7 @@ module Betfair
       market[:runners].each do |runner|
         runner.merge!( { :market_id => market[:market_id] } )
         runner.merge!( { :market_type_id => market[:market_type_id] } )
-        runner.merge!(price_string(prices[runner[:runner_id]]))
+        runner.merge!(price_string(prices[runner[:selection_id]]))
       end
     end
 

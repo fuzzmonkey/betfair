@@ -161,9 +161,9 @@ The API PlaceBets service allows you to place multiple (1 to 60) bets on a singl
 
     exchange_id     = 1
     bets            = []
-    bets <<  { market_id: 12345, runner_id: 58805, bet_type: 'B', price: 2.0, size: 2.0, asian_line_id: 0, 
+    bets <<  { market_id: 12345, selection_id: 58805, bet_type: 'B', price: 2.0, size: 2.0, asian_line_id: 0, 
                 bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }
-    bets <<  { market_id: 12345, runner_id: 1234, bet_type: 'L', price: 1.5, size: 2.0, asian_line_id: 0, 
+    bets <<  { market_id: 12345, selection_id: 1234, bet_type: 'L', price: 1.5, size: 2.0, asian_line_id: 0, 
                   bet_category_type: 'E', bet_peristence_type: 'NONE', bsp_liability: 0 }
 
     place_multiple_bets =               
@@ -276,7 +276,7 @@ This helper cleans up the prices
     foo     = helpers.prices(prices)
 
 ## Combine ##
-Use this to combine `runner_names` and prices from the #market_info and #prices helpers
+Use this to combine `selection_names` and prices from the #market_info and #prices helpers
     
     market  = bf.get_market(session_token, 2, 100388290)
     prices  = bf.get_market_prices_compressed(session_token, 2, 100388290)    
@@ -284,14 +284,14 @@ Use this to combine `runner_names` and prices from the #market_info and #prices 
 
 foo.first returns
 
-    { :runner_id=>39983, :runner_name=>"Collingwood Magpies", :market_id=>100388290, :market_type_id=>61420, 
+    { :selection_id=>39983, :selection_name=>"Collingwood Magpies", :market_id=>100388290, :market_type_id=>61420, 
       :prices_string=>"39983~0~89899.79~4.2~~~false~~~~|4.2~430.35~L~1~4.1~311.51~L~2~3.85~4.75~L~3~|4.4~155.46~B~1~4.6~230.69~B~2~5.9~100.3~B~3~", 
       :runner_matched=>89899.79, :last_back_price=>4.2, :wom=>0.6054936499440416, :b1=>4.2, :b1_available=>430.35, :b2=>4.1, :b2_available=>311.51, 
       :b3=>3.85, :b3_available=>4.75, :l1=>4.4, :l1_available=>155.46, :l2=>4.6, :l2_available=>230.69, :l3=>5.9, :l3_available=>100.3 
     } 
 
 ## Details ##
-Gets the `market_id`/`market_name` and the `runner_id`/`runner_name` 
+Gets the `market_id`/`market_name` and the `selection_id`/`selection_name` 
 
     market  = bf.get_market(session_token, 2, 100388290)
     foo     = helpers.details(market)
@@ -299,15 +299,15 @@ Gets the `market_id`/`market_name` and the `runner_id`/`runner_name`
 Which returns
 
     { :market_id=>100388290, :market_type_id=>61420, 
-      :runners=>[{:runner_id=>39983, :runner_name=>"Collingwood Magpies"}, {:runner_id=>244664, :runner_name=>"Hawthorn Hawks"}, 
-      {:runner_id=>244663, :runner_name=>"Geelong Cats"}, {:runner_id=>244689, :runner_name=>"Carlton Blues"}, 
-      {:runner_id=>210344, :runner_name=>"West Coast Eagles"}, {:runner_id=>244666, :runner_name=>"Fremantle Dockers"}, 
-      {:runner_id=>244688, :runner_name=>"St Kilda Saints"}, {:runner_id=>244665, :runner_name=>"Sydney Swans"}, 
-      {:runner_id=>173363, :runner_name=>"Adelaide Crows"}, {:runner_id=>210343, :runner_name=>"Essendon Bombers"}, 
-      {:runner_id=>39986, :runner_name=>"Western Bulldogs"}, {:runner_id=>244667, :runner_name=>"Richmond Tigers"}, 
-      {:runner_id=>2013991, :runner_name=>"North Melbourne Kangaroos"}, {:runner_id=>39987, :runner_name=>"Melbourne Demons"}, 
-      {:runner_id=>39984, :runner_name=>"Brisbane Lions"}, {:runner_id=>217710, :runner_name=>"Port Adelaide Power"}, 
-      {:runner_id=>4997061, :runner_name=>"Gold Coast Suns"}, {:runner_id=>5149403, :runner_name=>"Greater Western Sydney Giants"}]
+      :runners=>[{:selection_id=>39983, :selection_name=>"Collingwood Magpies"}, {:selection_id=>244664, :selection_name=>"Hawthorn Hawks"}, 
+      {:selection_id=>244663, :selection_name=>"Geelong Cats"}, {:selection_id=>244689, :selection_name=>"Carlton Blues"}, 
+      {:selection_id=>210344, :selection_name=>"West Coast Eagles"}, {:selection_id=>244666, :selection_name=>"Fremantle Dockers"}, 
+      {:selection_id=>244688, :selection_name=>"St Kilda Saints"}, {:selection_id=>244665, :selection_name=>"Sydney Swans"}, 
+      {:selection_id=>173363, :selection_name=>"Adelaide Crows"}, {:selection_id=>210343, :selection_name=>"Essendon Bombers"}, 
+      {:selection_id=>39986, :selection_name=>"Western Bulldogs"}, {:selection_id=>244667, :selection_name=>"Richmond Tigers"}, 
+      {:selection_id=>2013991, :selection_name=>"North Melbourne Kangaroos"}, {:selection_id=>39987, :selection_name=>"Melbourne Demons"}, 
+      {:selection_id=>39984, :selection_name=>"Brisbane Lions"}, {:selection_id=>217710, :selection_name=>"Port Adelaide Power"}, 
+      {:selection_id=>4997061, :selection_name=>"Gold Coast Suns"}, {:selection_id=>5149403, :selection_name=>"Greater Western Sydney Giants"}]
     }
 
 ## Prices Complete ##
