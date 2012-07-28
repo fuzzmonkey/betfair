@@ -424,7 +424,7 @@ module Betfair
           :iso3_country_code    => foo[9].to_s,
           # bf returns in this case time in Epoch, but in milliseconds 
           :last_refresh         => Time.at(foo[10].to_i/1000),
-          :number_of_runners    => foo[11].to_i,
+          :number_of_selections    => foo[11].to_i,
           :number_of_winners    => foo[12].to_i,
           :total_amount_matched => foo[13].to_f,
           :bsp_market           => foo[14] == 'Y' ? true : false,
@@ -449,7 +449,7 @@ module Betfair
           last_refresh      = Time.at(bar[10].to_i/1000).utc
           
           doh = { market_id: bar[0].to_i, market_name: bar[1], market_type: bar[2], market_status: bar[3], event_date: event_date, menu_path: bar[5], event_heirachy: bar[6], 
-                  bet_delay: bar[7].to_i, exchange_id: bar[8].to_i, iso3_country_code: bar[9], last_refresh: last_refresh, number_of_runners: bar[11].to_i, number_of_winners: bar[12].to_i, 
+                  bet_delay: bar[7].to_i, exchange_id: bar[8].to_i, iso3_country_code: bar[9], last_refresh: last_refresh, number_of_selections: bar[11].to_i, number_of_winners: bar[12].to_i, 
                   total_amount_matched: bar[13].to_f, bsp_market: bsp_market, turning_in_play: turning_in_play }        
           foo << doh if !doh[:market_name].nil?
         end
@@ -469,9 +469,9 @@ module Betfair
     end
 
     def details(market)
-      runners = []
-      market[:runners][:runner].each { |runner| runners << { :selection_id => runner[:selection_id].to_i, :selection_name => runner[:name] } }
-      return { :market_id => market[:market_id].to_i, :market_type_id => market[:event_type_id].to_i, :runners => runners }
+      selections = []
+      market[:runners][:runner].each { |selection| selections << { :selection_id => selection[:selection_id].to_i, :selection_name => selection[:name] } }
+      return { :market_id => market[:market_id].to_i, :market_type_id => market[:event_type_id].to_i, :selection => selections }
     end
 
     def prices(prices)
@@ -488,17 +488,17 @@ module Betfair
     def combine(market, prices)
       market = details(market)            
       prices = prices(prices)
-      market[:runners].each do |runner|
-        runner.merge!( { :market_id => market[:market_id] } )
-        runner.merge!( { :market_type_id => market[:market_type_id] } )
-        runner.merge!(price_string(prices[runner[:selection_id]]))
+      market[:selection].each do |selection|
+        selection.merge!( { :market_id => market[:market_id] } )
+        selection.merge!( { :market_type_id => market[:market_type_id] } )
+        selection.merge!(price_string(prices[selection[:selection_id]]))
       end
     end
 
     ##
     #
     # Complete representation of market price data response, 
-    # except "removed runners" which is returned as raw string. 
+    # except "removed selection" which is returned as raw string. 
     #
     ##
     def prices_complete(prices)
@@ -522,7 +522,7 @@ module Betfair
         :discount_allowed               => foo[6] == 'true' ? true : false,
         :market_base_rate               => foo[7].to_s,
         :refresh_time_in_milliseconds   => foo[8].to_i,
-        :removed_runners                => foo[9].to_s,
+        :removed_selections             => foo[9].to_s,
         :bsp_market                     => foo[10] == 'Y' ? true : false
       }
 
@@ -560,7 +560,7 @@ module Betfair
       string_raw = string
       string = string.split('|')
 
-      price = { :prices_string => nil, :runner_matched => 0, :last_back_price => 0, :wom => 0, 
+      price = { :prices_string => nil, :selection_matched => 0, :last_back_price => 0, :wom => 0, 
         :b1 => 0, :b1_available => 0, :b2 => 0, :b2_available => 0, :b3 => 0, :b3_available => 0,
         :l1 => 0, :l1_available => 0, :l2 => 0, :l2_available => 0, :l3 => 0, :l3_available => 0 
       }    			
@@ -568,7 +568,7 @@ module Betfair
       if !string[0].nil? and !prices_only
         str = string[0].split('~')	
         price[:prices_string] = string_raw
-        price[:runner_matched] = str[2].to_f
+        price[:selection_matched] = str[2].to_f
         price[:last_back_price]   = str[3].to_f
       end
 

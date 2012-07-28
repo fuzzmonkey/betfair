@@ -32,7 +32,7 @@ module Betfair
     end
     
     describe "Cleans up the get market details"  do
-      it "sort the runners for each market out " do
+      it "sort the selections for each market out " do
         savon.expects(:get_market).returns(:success)
         market = @bf.get_market(@session_token, 2, 10038633)
         details = @helpers.details(market)
@@ -40,7 +40,7 @@ module Betfair
       end
     end
 
-    describe "Get the price string for a runner"  do
+    describe "Get the price string for a selection"  do
       it "so that we can combine it together with market info" do
         savon.expects(:get_market_prices_compressed).returns(:success)
         prices = @bf.get_market_prices_compressed(@session_token, 2, 10038633)
@@ -49,7 +49,7 @@ module Betfair
       end
     end
    
-    describe "Combine market details and runner prices api call"  do
+    describe "Combine market details and selection prices api call"  do
       it "Combines the two api calls of get_market and get_market_prices_compressed " do
         
         savon.expects(:get_market).returns(:success)

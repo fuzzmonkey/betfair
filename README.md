@@ -238,7 +238,7 @@ foo[100388290] returns
     
     { :market_id=>100388290, :market_name=>"Premiers 2012", :market_type=>"O", :market_status=>"ACTIVE", :event_date=>2012-03-24 16:20:00 +0800, 
       :menu_path=>"\\Australian Rules\\AFL 2012", :event_hierarchy=>"/61420/26759191/100388290", :bet_delay=>"0", :exchange_id=>2, 
-      :iso3_country_code=>"AUS", :last_refresh=>2012-03-29 16:35:21 +0800, :number_of_runners=>18, :number_of_winners=>1, 
+      :iso3_country_code=>"AUS", :last_refresh=>2012-03-29 16:35:21 +0800, :number_of_selections=>18, :number_of_winners=>1, 
       :total_amount_matched=>193599.58, :bsp_market=>false, :turning_in_play=>false
     } 
 
@@ -255,7 +255,7 @@ foo.first returns
     
     { :market_id=>100388290, :market_name=>"Premiers 2012", :market_type=>"O", :market_status=>"ACTIVE", :event_date=>2012-03-24 08:20:00 UTC, 
       :menu_path=>"\\Australian Rules\\AFL 2012", :event_heirachy=>"/61420/26759191/100388290", :bet_delay=>0, :exchange_id=>2, 
-      :iso3_country_code=>"AUS", :last_refresh=>2012-03-29 09:10:12 UTC, :number_of_runners=>18, :number_of_winners=>1, 
+      :iso3_country_code=>"AUS", :last_refresh=>2012-03-29 09:10:12 UTC, :number_of_selections=>18, :number_of_winners=>1, 
       :total_amount_matched=>193657.0, :bsp_market=>false, :turning_in_play=>false
     }
     
@@ -286,7 +286,7 @@ foo.first returns
 
     { :selection_id=>39983, :selection_name=>"Collingwood Magpies", :market_id=>100388290, :market_type_id=>61420, 
       :prices_string=>"39983~0~89899.79~4.2~~~false~~~~|4.2~430.35~L~1~4.1~311.51~L~2~3.85~4.75~L~3~|4.4~155.46~B~1~4.6~230.69~B~2~5.9~100.3~B~3~", 
-      :runner_matched=>89899.79, :last_back_price=>4.2, :wom=>0.6054936499440416, :b1=>4.2, :b1_available=>430.35, :b2=>4.1, :b2_available=>311.51, 
+      :selection_matched=>89899.79, :last_back_price=>4.2, :wom=>0.6054936499440416, :b1=>4.2, :b1_available=>430.35, :b2=>4.1, :b2_available=>311.51, 
       :b3=>3.85, :b3_available=>4.75, :l1=>4.4, :l1_available=>155.46, :l2=>4.6, :l2_available=>230.69, :l3=>5.9, :l3_available=>100.3 
     } 
 
@@ -299,7 +299,7 @@ Gets the `market_id`/`market_name` and the `selection_id`/`selection_name`
 Which returns
 
     { :market_id=>100388290, :market_type_id=>61420, 
-      :runners=>[{:selection_id=>39983, :selection_name=>"Collingwood Magpies"}, {:selection_id=>244664, :selection_name=>"Hawthorn Hawks"}, 
+      :selections=>[{:selection_id=>39983, :selection_name=>"Collingwood Magpies"}, {:selection_id=>244664, :selection_name=>"Hawthorn Hawks"}, 
       {:selection_id=>244663, :selection_name=>"Geelong Cats"}, {:selection_id=>244689, :selection_name=>"Carlton Blues"}, 
       {:selection_id=>210344, :selection_name=>"West Coast Eagles"}, {:selection_id=>244666, :selection_name=>"Fremantle Dockers"}, 
       {:selection_id=>244688, :selection_name=>"St Kilda Saints"}, {:selection_id=>244665, :selection_name=>"Sydney Swans"}, 
@@ -320,7 +320,7 @@ foo.first returns
     
     [ 39983, {:selection_id=>39983, :order_index=>0, :total_amount_matched=>89899.79, :last_price_matched=>4.2, :handicap=>0.0, 
       :reduction_factor=>0.0, :vacant=>false, :far_sp_price=>0.0, :near_sp_price=>0.0, :actual_sp_price=>0.0, :prices_string=>nil, 
-      :runner_matched=>0, :last_back_price=>0, :wom=>0.5516492637413943, :b1=>4.2, :b1_available=>429.06, :b2=>4.1, :b2_available=>310.58, 
+      :selection_matched=>0, :last_back_price=>0, :wom=>0.5516492637413943, :b1=>4.2, :b1_available=>429.06, :b2=>4.1, :b2_available=>310.58, 
       :b3=>3.85, :b3_available=>4.75, :l1=>4.3, :l1_available=>20.0, :l2=>4.4, :l2_available=>355.0, :l3=>4.6, :l3_available=>230.0}
     ] 
 
@@ -329,7 +329,7 @@ foo.first returns
     prices  = bf.get_market_prices_compressed(session_token, 2, 100388290)
     foo     = helpers.price_string(prices, true)
 
-    { :prices_string=>nil, :runner_matched=>0, :last_back_price=>0, :wom=>0.6054936499440416, :b1=>4.2, :b1_available=>430.35, :b2=>4.1, :b2_available=>311.51, :b3=>3.85, 
+    { :prices_string=>nil, :selection_matched=>0, :last_back_price=>0, :wom=>0.6054936499440416, :b1=>4.2, :b1_available=>430.35, :b2=>4.1, :b2_available=>311.51, :b3=>3.85, 
       :b3_available=>4.75, :l1=>4.4, :l1_available=>155.46, :l2=>4.6, :l2_available=>230.69, :l3=>5.9, :l3_available=>100.3
     }
 
@@ -379,7 +379,7 @@ trying to set a threshold on when to place a bet.
 * Add em-http support as per this once this gets pulled https://github.com/rubiii/httpi/pull/40
 * The WOM of money in Helpers#price_string returns 0 if either all b1,b2,b3 or l1,l2,l3 are all 0
 * Add some error checking to the Betfair::Helper methods
-* Finish of the mash method, to return a nice hash of all market and runner info
+* Finish of the mash method, to return a nice hash of all market and selection info
 * Write a spec for the mashed method
 
 ## Contribute ##
