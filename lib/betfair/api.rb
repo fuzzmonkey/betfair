@@ -600,6 +600,67 @@ module Betfair
 
       return price			  		
     end
+
+		def odds_table
+      odds_table = []
+      (1.01..1.99).step(0.01).each  { |i| odds_table << i.round(2) }
+      (2..2.98).step(0.02).each     { |i| odds_table << i.round(2) }
+      (3..3.95).step(0.05).each     { |i| odds_table << i.round(2) }
+      (4..5.9).step(0.1).each       { |i| odds_table << i.round(2) }
+      (6..9.8).step(0.2).each       { |i| odds_table << i.round(2) }
+      (10..19.5).step(0.5).each     { |i| odds_table << i.round(2) }
+      (20..29).step(1).each         { |i| odds_table << i.round }
+      (30..48).step(2).each         { |i| odds_table << i.round }
+      (50..95).step(5).each         { |i| odds_table << i.round }
+      (100..1000).step(10).each     { |i| odds_table << i.round }
+      return odds_table
+    end
+
+    def set_betfair_odds(price, pips = 0, round_up = false, round_down = false)
+      price = price.to_f
+      prc = price
+      case price
+        when 0..1       then prc = increment = 1.01
+        when 1.01..1.99 then increment = 0.01
+        when 2..2.98    then increment = 0.02
+        when 3..3.95    then increment = 0.05
+        when 4..5.9     then increment = 0.1
+        when 6..9.8     then increment = 0.2
+        when 10..19.5   then increment = 0.5
+        when 20..29     then increment = 1
+        when 30..48     then increment = 2
+        when 50..95     then increment = 5
+        when 100..1000  then increment = 10
+      else
+        price = 1000
+        increment = 1000
+      end
+
+      if round_up == true
+        prc = ( (prc / increment).ceil * increment ).round(2)
+      elsif round_down == true
+        prc = ( (prc / increment).floor * increment ).round(2)
+      else
+        prc = ( (prc / increment).round * increment ).round(2)
+      end
+
+      ot = odds_table     # Set up the odds table
+      unless pips == 0 and odds_table.count > 0   # If pips is 0
+        index = ot.index(prc) + pips
+        index = 0   if index < 0
+        index = 349 if index > 349
+        prc = ot[index]  # Grab x number of pips above
+      end
+
+      { price: price, prc: prc, pips: pips, increment: increment }
+
+    end
+
+    def get_odds_spread(back_odds = 0, lay_odds = 0)
+      back_odds = set_betfair_odds(back_odds)
+      lay_odds = set_betfair_odds(lay_odds)
+      diff = lay_odds[:prc] - back_odds[:prc]
+    end
     
   end
   
