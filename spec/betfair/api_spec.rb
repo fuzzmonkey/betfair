@@ -63,9 +63,53 @@ module Betfair
       end
     end  
 
-  end
+		describe "set up an odds tables of all possible Betfair Odds" do
+			it "should return a hash of all possible Betfair odds with correct increments" do
+			  odds_table = @helpers.odds_table
+			  odds_table.should_not be_nil
+			  odds_table.should be_an_instance_of(Array)
+			  odds_table.count.should eq(350)
+			  odds_table[256].should eq(85)
+			end
 
+			it "should return a standard hash" do
+			  betfair_odds = @helpers.set_betfair_odds(275, 0, false, false)
+			  betfair_odds.should be_an_instance_of(Hash)
+			  betfair_odds[:price].should eq(275)
+			  betfair_odds[:prc].should eq(280)
+			  betfair_odds[:increment].should eq(10)
+			  betfair_odds[:pips].should eq(0)
+			end
 
+			it "should return a standard hash with prc at 1 pip and price rounded up" do
+			  betfair_odds = @helpers.set_betfair_odds(2.31, 1, true, false)
+			  betfair_odds.should be_an_instance_of(Hash)
+			  betfair_odds[:price].should eq(2.31)
+			  betfair_odds[:prc].should eq(2.34)
+			  betfair_odds[:increment].should eq(0.02)
+			  betfair_odds[:pips].should eq(1)
+			end
+
+			it "should return a standard hash with prc at 2 pip and price rounded down" do
+			  betfair_odds = @helpers.set_betfair_odds(2.31, 5, false, true)
+			  betfair_odds.should be_an_instance_of(Hash)
+			  betfair_odds[:price].should eq(2.31)
+			  betfair_odds[:prc].should eq(2.4)
+			  betfair_odds[:increment].should eq(0.02)
+			  betfair_odds[:pips].should eq(5)
+			end
+
+			it "should return an even spread of odds based on the odds_table method" do
+			  spread = @helpers.get_odds_spread(271, 343)
+			  spread.should eq(70.0)
+			  spread = @helpers.get_odds_spread(1.28, 3.43)
+			  spread.should eq(2.17)
+			end
+
+		end
+
+	end
+	
   describe "Placing and cancelling bets - " do
     
     include LoginHelper
