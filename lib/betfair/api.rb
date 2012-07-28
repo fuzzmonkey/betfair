@@ -4,8 +4,13 @@ module Betfair
 
     ## Some handy constants...
 
-    EXCHANGE_IDS = { aus: 2, uk:  1 }
+    EXCHANGE_IDS = {
+      :aus => 2,
+      :uk  => 1
+    }
+    
     PRODUCT_ID_FREE = 82
+
     BET_TYPE_LAY  = 'L'
     BET_TYPE_BACK = 'B'
 
@@ -26,70 +31,70 @@ module Betfair
     ## Bet Placement API METHODS
     #
 
-    def place_bet(session_token, exchange_id, market_id, selection_id, bet_type, price, size)
-      bf_bet = {
-        marketId:           market_id,
-        selectionId:        selection_id,
-        betType:            bet_type,
-        price:              price,
-        size:               size,
-        asianLineId:        0,
-        betCategoryType:    'E',
-        betPersistenceType: 'NONE',
-        bspLiability:       0
+    def place_bet(session_token, exchange_id, market_id, selection_id, bet_type, price, size)		
+      bf_bet = { 
+        :marketId           => market_id, 
+        :selectionId        => selection_id, 
+        :betType            => bet_type, 
+        :price              => price, 
+        :size               => size, 
+        :asianLineId        => 0, 
+        :betCategoryType    => 'E', 
+        :betPersistenceType => 'NONE', 
+        :bspLiability       => 0 
       }
 
       response = exchange(exchange_id).
         session_request( session_token,
-                         :placeBets,
+                         :placeBets, 
                          :place_bets_response,
-                         bets: { 'PlaceBets' => [bf_bet] } )
+                         :bets => { 'PlaceBets' => [bf_bet] } )
 
       return response.maybe_result( :bet_results, :place_bets_result )
     end
 
     
-   def place_multiple_bets(session_token, exchange_id, bets)
+   def place_multiple_bets(session_token, exchange_id, bets)		
       bf_bets = []
       bets.each do |bet|
-        bf_bets << {
-          marketId:           bet[:market_id],
-          selectionId:        bet[:runner_id],
-          betType:            bet[:bet_type],
-          price:              bet[:price],
-          size:               bet[:size],
-          asianLineId:        bet[:asian_line_id],
-          betCategoryType:    bet[:bet_category_type],
-          betPersistenceType: bet[:bet_peristence_type],
-          bspLiability:       bet[:bsp_liability]
+        bf_bets << { 
+          :marketId           => bet[:market_id], 
+          :selectionId        => bet[:runner_id], 
+          :betType            => bet[:bet_type], 
+          :price              => bet[:price], 
+          :size               => bet[:size], 
+          :asianLineId        => bet[:asian_line_id], 
+          :betCategoryType    => bet[:bet_category_type], 
+          :betPersistenceType => bet[:bet_peristence_type], 
+          :bspLiability       => bet[:bsp_liability] 
         }
       end
 
       response = exchange(exchange_id).
         session_request( session_token,
-                         :placeBets,
+                         :placeBets, 
                          :place_bets_response,
-                         bets: { 'PlaceBets' => bf_bets } )
+                         :bets => { 'PlaceBets' => bf_bets } )
 
       return response.maybe_result( :bet_results, :place_bets_result )
-    end
+    end      
     
     def update_bet(session_token, exchange_id, bet_id, new_bet_persitence_type, new_price, new_size, old_bet_persitance_type, old_price, old_size)
-       bf_bet = {
-          betId:                  bet_id,
-          newBetPersistenceType:  new_bet_persitence_type,
-          newPrice:               new_price,
-          newSize:                new_size,
-          oldBetPersistenceType:  old_bet_persitance_type,
-          oldPrice:               old_price,
-          oldSize:                old_size
+       bf_bet = { 
+          :betId                  => bet_id, 
+          :newBetPersistenceType  => new_bet_persitence_type, 
+          :newPrice               => new_price, 
+          :newSize                => new_size, 
+          :oldBetPersistenceType  => old_bet_persitance_type, 
+          :oldPrice               => old_price, 
+          :oldSize                => old_size
         }
 
         response = exchange(exchange_id).
           session_request( session_token,
-                           :updateBets,
+                           :updateBets, 
                            :update_bets_response,
-                           bets: { 'UpdateBets' => [bf_bet] } )
+                           :bets => { 'UpdateBets' => [bf_bet] } )
 
         return response.maybe_result( :bet_results, :update_bets_result )
     end
@@ -97,47 +102,47 @@ module Betfair
     def update_multiple_bets(session_token, exchange_id, bets)
       bf_bets = []
       bets.each do |bet|
-        bf_bets << {
-          betId:                  bet[:bet_id],
-          newBetPersistenceType:  bet[:new_bet_persitence_type],
-          newPrice:               bet[:new_price],
-          newSize:                bet[:new_size],
-          oldBetPersistenceType:  bet[:old_bet_persitance_type],
-          oldPrice:               bet[:old_price],
-          oldSize:                bet[:old_size]
+        bf_bets << { 
+          :betId                  => bet[:bet_id], 
+          :newBetPersistenceType  => bet[:new_bet_persitence_type], 
+          :newPrice               => bet[:new_price], 
+          :newSize                => bet[:new_size], 
+          :oldBetPersistenceType  => bet[:old_bet_persitance_type], 
+          :oldPrice               => bet[:old_price], 
+          :oldSize                => bet[:old_size] 
         }
       end
 
       response = exchange(exchange_id).
         session_request( session_token,
-                         :updateBets,
+                         :updateBets, 
                          :update_bets_response,
-                         bets: { 'UpdateBets' => bf_bets } )
+                         :bets => { 'UpdateBets' => bf_bets } )
 
-      return response.maybe_result( :bet_results, :update_bets_result )
+      return response.maybe_result( :bet_results, :update_bets_result )     
     end
     
     def cancel_bet(session_token, exchange_id, bet_id)
-      bf_bet = { betId: bet_id }
+      bf_bet = { :betId => bet_id }
 
       response = exchange(exchange_id).
         session_request( session_token,
-                         :cancelBets,
+                         :cancelBets, 
                          :cancel_bets_response,
-                         bets: { 'CancelBets' => [bf_bet] } ) # "CancelBets" has to be a string, not a symbol!
+                         :bets => { 'CancelBets' => [bf_bet] } ) # "CancelBets" has to be a string, not a symbol!
       
       return response.maybe_result( :bet_results, :cancel_bets_result )
     end
         
     def cancel_multiple_bets(session_token, exchange_id, bets)
       bf_bets = []
-      bets.each { |bet_id| bf_bets << { betId: bet_id } }
+      bets.each { |bet_id| bf_bets << { :betId => bet_id } }
 
       response = exchange(exchange_id).
         session_request( session_token,
-                         :cancelBets,
+                         :cancelBets, 
                          :cancel_bets_response,
-                         bets: { 'CancelBets' => bf_bets } ) # "CancelBets" has to be a string, not a symbol!
+                         :bets => { 'CancelBets' => bf_bets } ) # "CancelBets" has to be a string, not a symbol!
       
       return response.maybe_result( :bet_results, :cancel_bets_result )
     end
@@ -151,31 +156,31 @@ module Betfair
     
     def get_mu_bets( session_token, exchange_id, market_id = 0, bet_status = 'MU', start_record = 0, record_count = 200, sort_order = 'ASC', order_by =  'PLACED_DATE') #, bet_ids = nil, , exclude_last_second = nil, matched_since = nil
       response = exchange(exchange_id).
-        session_request( session_token,
-                         :getMUBets,
+        session_request( session_token, 
+                         :getMUBets, 
                          :get_mu_bets_response,
-                         #betIds:             bet_ids,
-                         betStatus:           bet_status,
-                         #excludeLastSecond:  exclude_last_second,
-                         marketId:            market_id,
-                         #matchedSince:       matched_since,
-                         orderBy:             order_by,
-                         recordCount:         record_count,
-                         sortOrder:           sort_order,
-                         startRecord:         start_record
+                         #:betIds => bet_ids,
+                         :betStatus => bet_status,
+                         #:excludeLastSecond => exclude_last_second,
+                         :marketId => market_id,
+                         #:matchedSince => matched_since,
+                         :orderBy => order_by,
+                         :recordCount => record_count,
+                         :sortOrder => sort_order,
+                         :startRecord => start_record
                          )
 
       return response.maybe_result( :bets, :mu_bet )
     end
     
     
-    def get_market(session_token, exchange_id, market_id, locale = nil)
+    def get_market(session_token, exchange_id, market_id, locale = nil) 
       response = exchange(exchange_id).
-        session_request( session_token,
-                         :getMarket,
+        session_request( session_token, 
+                         :getMarket, 
                          :get_market_response,
-                         marketId:  market_id,
-                         locale:    locale )
+                         :marketId => market_id, 
+                         :locale   => locale )
 
       return response.maybe_result( :market )
     end
@@ -184,10 +189,10 @@ module Betfair
     def get_market_prices_compressed(session_token, exchange_id, market_id, currency_code = nil)
       response = exchange(exchange_id).
         session_request( session_token,
-                         :getMarketPricesCompressed,
+                         :getMarketPricesCompressed, 
                          :get_market_prices_compressed_response,
-                         marketId:      market_id,
-                         currencyCode:  currency_code )
+                         :marketId => market_id,
+                         :currencyCode => currency_code )
       
       return response.maybe_result( :market_prices )
     end
@@ -196,24 +201,24 @@ module Betfair
     def get_active_event_types(session_token, locale = nil)
       response = @global_service.
         session_request( session_token,
-                         :getActiveEventTypes,
+                         :getActiveEventTypes, 
                          :get_active_event_types_response,
-                         locale: locale )
+                         :locale => locale )
 
       return response.maybe_result( :event_type_items, :event_type )
     end
 
 
-    def get_all_markets(session_token, exchange_id, event_type_ids = [], locale = nil, countries = [], from_date = nil, to_date = nil)
+    def get_all_markets(session_token, exchange_id, event_type_ids = nil, locale = nil, countries = nil, from_date = nil, to_date = nil)
       response = exchange(exchange_id).
-        session_request( session_token,
-                         :getAllMarkets,
+        session_request( session_token, 
+                         :getAllMarkets, 
                          :get_all_markets_response,
-                         eventTypeIds: { 'int' => event_type_ids },
-                         locale:       locale,
-                         countries:    { 'Country' => countries },
-                         fromDate:     from_date,
-                         toDate:       to_date )
+                         :eventTypeIds => { 'int' => event_type_ids }, 
+                         :locale       => locale, 
+                         :countries    => { 'country' => countries }, 
+                         :fromDate     => from_date, 
+                         :toDate       => to_date )
       
       return response.maybe_result( :market_data )
     end
@@ -221,22 +226,22 @@ module Betfair
 
     def get_account_funds( session_token, exchange_id )
       response = exchange(exchange_id).
-        session_request( session_token,
-                         :getAccountFunds,
+        session_request( session_token, 
+                         :getAccountFunds, 
                          :get_account_funds_response )
 
       return response.maybe_result
     end
 
     def login(username, password, product_id, vendor_software_id, location_id, ip_address)
-      response = @global_service.request( :login,
-                                          :login_response,
-                                          username:         username,
-                                          password:         password,
-                                          productId:        product_id,
-                                          vendorSoftwareId: vendor_software_id,
-                                          locationId:       location_id,
-                                          ipAddress:        ip_address )
+      response = @global_service.request( :login, 
+                                          :login_response, 
+                                          :username         => username, 
+                                          :password         => password, 
+                                          :productId        => product_id, 
+                                          :vendorSoftwareId => vendor_software_id, 
+                                          :locationId       => location_id, 
+                                          :ipAddress        => ip_address )
 
       return response.maybe_result( :header, :session_token )
     end
@@ -247,19 +252,21 @@ module Betfair
     def keep_alive(session_token)
       response = @global_service.
         session_request( session_token,
-                         :keep_alive,
+                         :keep_alive, 
                          :keep_alive_response )
       
-      # Need to do the old school way of checking as the keep_alive response doesn't return a minorErrorCode, so fails
-      error_code = response[:header][:error_code]
-      #return error_code == 'OK' ? response[:header][:session_token] : error_code
-      return error_code == 'OK' ? response[:header][:session_token].extend( Success ) : error_code.extend( Failure )
+      # Need to do the old school way of checking as the keep_alive
+      # response doesn't return a minorErrorCode, so fails
+      error_code = response[:header][:error_code]     
+      return error_code == 'OK' ? 
+        response[:header][:session_token].extend( Success ) : 
+        error_code.extend( Failure )
     end
     
     def logout(session_token)
       response = @global_service.
         session_request( session_token,
-                         :logout,
+                         :logout, 
                          :logout_response )
       return response.maybe_result( :header, :session_token )
     end
@@ -268,11 +275,11 @@ module Betfair
     ## END OF API METHODS
 
 
-    def exchange(exchange_id)
+    def exchange(exchange_id)   
       exchange_id == EXCHANGE_IDS[:aus] ? @aus_service : @uk_service
     end
 
-    def session_token(response_header)
+    def session_token(response_header)      
       response_header[:error_code] == 'OK' ? response_header[:session_token] : response_header[:error_code]
     end
 
@@ -297,13 +304,13 @@ module Betfair
 
       # Handy constants
       NAMESPACES = {
-        aus:    'http://www.betfair.com/exchange/v3/BFExchangeService/AUS',
-        global: 'https://www.betfair.com/global/v3/BFGlobalService',
-        uk:     'http://www.betfair.com/exchange/v3/BFExchangeService/UK' }
+        :aus    => 'http://www.betfair.com/exchange/v3/BFExchangeService/AUS',
+        :global => 'https://www.betfair.com/global/v3/BFGlobalService',
+        :uk     => 'http://www.betfair.com/exchange/v3/BFExchangeService/UK' }
       ENDPOINTS  = {
-        aus:    'https://api-au.betfair.com/exchange/v5/BFExchangeService',
-        global: 'https://api.betfair.com/global/v3/BFGlobalService',
-        uk:     'https://api.betfair.com/exchange/v5/BFExchangeService' }
+        :aus    => 'https://api-au.betfair.com/exchange/v5/BFExchangeService',
+        :global => 'https://api.betfair.com/global/v3/BFGlobalService',
+        :uk     => 'https://api.betfair.com/exchange/v5/BFExchangeService' }
 
 
       # Factory methods for building clients to the different endpoints
@@ -313,17 +320,17 @@ module Betfair
 
 
       # Wrapper to avoid leaking Savon's logging API
-      def self.log=(logging); Savon.config.log = !!logging; end
+      def self.log=(logging); Savon.log = !!logging; end
 
 
       # Pass the `region` (see ENDPOINTS for valid values) to pick the
       # WSDL endpoint and namespace.  `proxy` should be a string URL
       # for HTTPI to use as a proxy setting.
-      def initialize( region, proxy)
+      def initialize( region, proxy )
         @client = Savon::Client.new do |wsdl, http|
           wsdl.endpoint  = ENDPOINTS[region]
           wsdl.namespace = NAMESPACES[region]
-          http.proxy = proxy if proxy          
+          http.proxy = proxy if proxy
         end
       end
 
@@ -345,15 +352,15 @@ module Betfair
       # For those requests which take place in the context of a session,
       # this method constructs the correct header and delegates to #request.
       def session_request( session_token, method, result_field, body = {})
-        header_body = { header: api_request_header(session_token) }
+        header_body = { :header => api_request_header(session_token) }
         full_body = header_body.merge( body )
 
         request method, result_field, full_body
       end
 
 
-      def api_request_header(session_token)
-        { client_stamp: 0, session_token: session_token }
+      def api_request_header(session_token)      
+        { :client_stamp => 0, :session_token => session_token }
       end
       protected :api_request_header
 
@@ -366,7 +373,7 @@ module Betfair
     module ErrorPresenter
 
       def success?
-        self[:error_code] == 'OK'
+        self[:error_code] == "OK"
       end
 
 
@@ -391,7 +398,7 @@ module Betfair
 
 
 
-  class Helpers
+  class Helpers  	  	
     
     ## HELPER METHODS
     #
@@ -403,26 +410,26 @@ module Betfair
       markets.each do |piece|
         piece.gsub! "\0", '\:'
         foo = piece.split('~')
-        market_hash[foo[0].to_i] = {
-          market_id:            foo[0].to_i,
-          market_name:          foo[1].to_s,
-          market_type:          foo[2].to_s,
-          market_status:        foo[3].to_s,
+        market_hash[foo[0].to_i] = { 
+          :market_id            => foo[0].to_i,
+          :market_name          => foo[1].to_s,
+          :market_type          => foo[2].to_s,
+          :market_status        => foo[3].to_s,
           # bf returns in this case time in Epoch, but in milliseconds
-          event_date:           Time.at(foo[4].to_i/1000),
-          menu_path:            foo[5].to_s,
-          event_hierarchy:      foo[6].to_s,
-          bet_delay:            foo[7].to_s,
-          exchange_id:          foo[8].to_i,
-          iso3_country_code:    foo[9].to_s,
-          # bf returns in this case time in Epoch, but in milliseconds
-          last_refresh:         Time.at(foo[10].to_i/1000),
-          number_of_runners:    foo[11].to_i,
-          number_of_winners:    foo[12].to_i,
-          total_amount_matched: foo[13].to_f,
-          bsp_market:           foo[14] == 'Y' ? true : false,
-          turning_in_play:      foo[15] == 'Y' ? true : false
-        }
+          :event_date           => Time.at(foo[4].to_i/1000),
+          :menu_path            => foo[5].to_s,
+          :event_hierarchy      => foo[6].to_s,
+          :bet_delay            => foo[7].to_s,
+          :exchange_id          => foo[8].to_i,
+          :iso3_country_code    => foo[9].to_s,
+          # bf returns in this case time in Epoch, but in milliseconds 
+          :last_refresh         => Time.at(foo[10].to_i/1000),
+          :number_of_runners    => foo[11].to_i,
+          :number_of_winners    => foo[12].to_i,
+          :total_amount_matched => foo[13].to_f,
+          :bsp_market           => foo[14] == 'Y' ? true : false,
+          :turning_in_play      => foo[15] == 'Y' ? true : false
+        } 
       end
       return market_hash
     end
@@ -441,25 +448,9 @@ module Betfair
           event_date        = Time.at(bar[4].to_i/1000).utc
           last_refresh      = Time.at(bar[10].to_i/1000).utc
           
-          doh = {
-            market_id:            bar[0].to_i,
-            market_name:          bar[1],
-            market_type:          bar[2],
-            market_status:        bar[3],
-            event_date:           event_date,
-            menu_path:            bar[5],
-            event_heirachy:       bar[6],
-            bet_delay:            bar[7].to_i,
-            exchange_id:          bar[8].to_i,
-            iso3_country_code:    bar[9],
-            last_refresh:         last_refresh,
-            number_of_runners:    bar[11].to_i,
-            number_of_winners:    bar[12].to_i,
-            total_amount_matched: bar[13].to_f,
-            bsp_market:           bsp_market,
-            turning_in_play:      turning_in_play
-          }
-                  
+          doh = { market_id: bar[0].to_i, market_name: bar[1], market_type: bar[2], market_status: bar[3], event_date: event_date, menu_path: bar[5], event_heirachy: bar[6], 
+                  bet_delay: bar[7].to_i, exchange_id: bar[8].to_i, iso3_country_code: bar[9], last_refresh: last_refresh, number_of_runners: bar[11].to_i, number_of_winners: bar[12].to_i, 
+                  total_amount_matched: bar[13].to_f, bsp_market: bsp_market, turning_in_play: turning_in_play }        
           foo << doh if !doh[:market_name].nil?
         end
       end
@@ -467,24 +458,24 @@ module Betfair
     end
 
     def market_info(details)
-      { exchange_id:      nil,
-        market_type_id:   nil,
-        market_matched:   nil,
-        menu_path:        details[:menu_path],
-        market_id:        details[:market_id],
-        market_name:      details[:name],
-        market_type_name: details[:menu_path].to_s.split('\\')[1]
+      { :exchange_id => nil,
+        :market_type_id => nil,
+        :market_matched => nil,
+        :menu_path => details[:menu_path], 
+        :market_id => details[:market_id], 
+        :market_name => details[:name],
+        :market_type_name => details[:menu_path].to_s.split('\\')[1]
       }
     end
 
     def details(market)
       runners = []
-      market[:runners][:runner].each { |runner| runners << { runner_id: runner[:selection_id].to_i, runner_name: runner[:name] } }
-      return { market_id: market[:market_id].to_i, market_type_id: market[:event_type_id].to_i, runners: runners }
+      market[:runners][:runner].each { |runner| runners << { :runner_id => runner[:selection_id].to_i, :runner_name => runner[:name] } }
+      return { :market_id => market[:market_id].to_i, :market_type_id => market[:event_type_id].to_i, :runners => runners }
     end
 
     def prices(prices)
-      price_hash = {}
+      price_hash = {}					
       prices.gsub! '\:', "\0"
       pieces = prices.split ":"
       pieces.each do |piece|
@@ -495,24 +486,24 @@ module Betfair
     end
     
     def combine(market, prices)
-      market = details(market)
+      market = details(market)            
       prices = prices(prices)
       market[:runners].each do |runner|
-        runner.merge!( { market_id: market[:market_id] } )
-        runner.merge!( { market_type_id: market[:market_type_id] } )
+        runner.merge!( { :market_id => market[:market_id] } )
+        runner.merge!( { :market_type_id => market[:market_type_id] } )
         runner.merge!(price_string(prices[runner[:runner_id]]))
       end
     end
 
     ##
     #
-    # Complete representation of market price data response,
-    # except "removed runners" which is returned as raw string.
+    # Complete representation of market price data response, 
+    # except "removed runners" which is returned as raw string. 
     #
     ##
     def prices_complete(prices)
       aux_hash   = {}
-      price_hash = {}
+      price_hash = {}         
 
       prices.gsub! '\:', "\0"
       pieces = prices.split ":"
@@ -521,21 +512,21 @@ module Betfair
       aux = pieces.first
       aux.gsub! "\0", '\:'
       foo = aux.split('~')
-      aux_hash =   {
-        market_id:                      foo[0].to_i,
-        currency:                       foo[1].to_s,
-        market_status:                  foo[2].to_s,
-        in_play_delay:                  foo[3].to_i,
-        number_of_winners:              foo[4].to_i,
-        market_information:             foo[5].to_s,
-        discount_allowed:               foo[6] == 'true' ? true : false,
-        market_base_rate:               foo[7].to_s,
-        refresh_time_in_milliseconds:   foo[8].to_i,
-        removed_runners:                foo[9].to_s,
-        bsp_market:                     foo[10] == 'Y' ? true : false
+      aux_hash =   {  
+        :market_id                      => foo[0].to_i,
+        :currency                       => foo[1].to_s,
+        :market_status                  => foo[2].to_s,
+        :in_play_delay                  => foo[3].to_i,
+        :number_of_winners              => foo[4].to_i,
+        :market_information             => foo[5].to_s,
+        :discount_allowed               => foo[6] == 'true' ? true : false,
+        :market_base_rate               => foo[7].to_s,
+        :refresh_time_in_milliseconds   => foo[8].to_i,
+        :removed_runners                => foo[9].to_s,
+        :bsp_market                     => foo[10] == 'Y' ? true : false
       }
 
-      # now iterating over the prices excluding the first piece that we already parsed above
+      # now iterating over the prices excluding the first piece that we already parsed above 
       pieces[1..-1].each do |piece|
         piece.gsub! "\0", '\:'
         
@@ -543,17 +534,17 @@ module Betfair
         # using the selection_id as hash key
         price_hash_key = bar[0].to_i
 
-        price_hash[price_hash_key] = {
-          selection_id:                 bar[0].to_i,
-          order_index:                  bar[1].to_i,
-          total_amount_matched:         bar[2].to_f,
-          last_price_matched:           bar[3].to_f,
-          handicap:                     bar[4].to_f,
-          reduction_factor:             bar[5].to_f,
-          vacant:                       bar[6] == 'true' ? true : false,
-          far_sp_price:                 bar[7].to_f,
-          near_sp_price:                bar[8].to_f,
-          actual_sp_price:              bar[9].to_f
+        price_hash[price_hash_key] = {  
+          :selection_id                 => bar[0].to_i,
+          :order_index                  => bar[1].to_i,
+          :total_amount_matched         => bar[2].to_f,
+          :last_price_matched           => bar[3].to_f,
+          :handicap                     => bar[4].to_f,
+          :reduction_factor             => bar[5].to_f,
+          :vacant                       => bar[6] == 'true' ? true : false,
+          :far_sp_price                 => bar[7].to_f,
+          :near_sp_price                => bar[8].to_f,
+          :actual_sp_price              => bar[9].to_f                           
         }
 
         # merge lay and back prices into price_hash
@@ -569,27 +560,13 @@ module Betfair
       string_raw = string
       string = string.split('|')
 
-      price = {
-        prices_string:    nil,
-        runner_matched:   0,
-        last_back_price:  0,
-        wom:              0,
-        b1:               0,
-        b1_available:     0,
-        b2:               0,
-        b2_available:     0,
-        b3:               0,
-        b3_available:     0,
-        l1:               0,
-        l1_available:     0,
-        l2:               0,
-        l2_available:     0,
-        l3:               0,
-        l3_available:     0
-      }
+      price = { :prices_string => nil, :runner_matched => 0, :last_back_price => 0, :wom => 0, 
+        :b1 => 0, :b1_available => 0, :b2 => 0, :b2_available => 0, :b3 => 0, :b3_available => 0,
+        :l1 => 0, :l1_available => 0, :l2 => 0, :l2_available => 0, :l3 => 0, :l3_available => 0 
+      }    			
 
       if !string[0].nil? and !prices_only
-        str = string[0].split('~')
+        str = string[0].split('~')	
         price[:prices_string] = string_raw
         price[:runner_matched] = str[2].to_f
         price[:last_back_price]   = str[3].to_f
@@ -597,15 +574,15 @@ module Betfair
 
       # Get the b prices (which are actually the l prices)
       if !string[1].nil?
-        b = string[1].split('~')
+        b = string[1].split('~')	
         price[:b1]             = b[0].to_f if !b[0].nil?
         price[:b1_available]   = b[1].to_f if !b[1].nil?
         price[:b2]             = b[4].to_f if !b[5].nil?
         price[:b2_available]   = b[5].to_f if !b[6].nil?
         price[:b3]             = b[8].to_f if !b[8].nil?
-        price[:b3_available]   = b[9].to_f if !b[9].nil?
+        price[:b3_available]   = b[9].to_f if !b[9].nil?  				 				
         combined_b = price[:b1_available] + price[:b2_available] + price[:b3_available]
-      end
+      end				
 
       # Get the l prices (which are actually the l prices)
       if !string[2].nil?
@@ -615,74 +592,13 @@ module Betfair
         price[:l2]             = l[4].to_f if !l[4].nil?
         price[:l2_available]   = l[5].to_f if !l[5].nil?
         price[:l3]             = l[8].to_f if !l[8].nil?
-        price[:l3_available]   = l[9].to_f if !l[9].nil?
+        price[:l3_available]   = l[9].to_f if !l[9].nil?  				  				
         combined_l = price[:l1_available] + price[:l2_available] + price[:l3_available]
-      end
+      end			
 
       price[:wom] = combined_b / ( combined_b + combined_l ) unless combined_b.nil? or combined_l.nil?
 
-      return price
-    end
-    
-    def odds_table
-      odds_table = []
-      (1.01..1.99).step(0.01).each  { |i| odds_table << i.round(2) }
-      (2..2.98).step(0.02).each     { |i| odds_table << i.round(2) }
-      (3..3.95).step(0.05).each     { |i| odds_table << i.round(2) }
-      (4..5.9).step(0.1).each       { |i| odds_table << i.round(2) }
-      (6..9.8).step(0.2).each       { |i| odds_table << i.round(2) }
-      (10..19.5).step(0.5).each     { |i| odds_table << i.round(2) }
-      (20..29).step(1).each         { |i| odds_table << i.round }
-      (30..48).step(2).each         { |i| odds_table << i.round }
-      (50..95).step(5).each         { |i| odds_table << i.round }
-      (100..1000).step(10).each     { |i| odds_table << i.round }
-      return odds_table
-    end
-
-    def set_betfair_odds(price, pips = 0, round_up = false, round_down = false)
-      price = price.to_f
-      prc = price
-      case price
-        when 0..1       then prc = increment = 1.01
-        when 1.01..1.99 then increment = 0.01
-        when 2..2.98    then increment = 0.02
-        when 3..3.95    then increment = 0.05
-        when 4..5.9     then increment = 0.1
-        when 6..9.8     then increment = 0.2
-        when 10..19.5   then increment = 0.5
-        when 20..29     then increment = 1
-        when 30..48     then increment = 2
-        when 50..95     then increment = 5
-        when 100..1000  then increment = 10
-      else
-        price = 1000
-        increment = 1000
-      end
-
-      if round_up == true
-        prc = ( (prc / increment).ceil * increment ).round(2)
-      elsif round_down == true
-        prc = ( (prc / increment).floor * increment ).round(2)
-      else
-        prc = ( (prc / increment).round * increment ).round(2)
-      end
-
-      ot = odds_table     # Set up the odds table
-      unless pips == 0 and odds_table.count > 0   # If pips is 0
-        index = ot.index(prc) + pips
-        index = 0   if index < 0
-        index = 349 if index > 349
-        prc = ot[index]  # Grab x number of pips above
-      end
-
-      { price: price, prc: prc, pips: pips, increment: increment }
-
-    end
-
-    def get_odds_spread(back_odds = 0, lay_odds = 0)
-      back_odds = set_betfair_odds(back_odds)
-      lay_odds = set_betfair_odds(lay_odds)
-      diff = lay_odds[:prc] - back_odds[:prc]
+      return price			  		
     end
     
   end

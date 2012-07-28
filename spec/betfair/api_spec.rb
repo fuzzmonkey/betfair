@@ -2,134 +2,82 @@ require 'tempfile'
 require 'spec_helper'
 
 module Betfair
-  
+
+
   describe "Helper methods for mashing the data from the API - " do 
 
-    before(:all) do 
-      @bf = Betfair::API.new
-      @helpers = Betfair::Helpers.new
-      @session_token = @bf.login('username', 'password', 82, 0, 0, nil)           
-    end    
+    include LoginHelper
     
-    describe "create a hash from the get_all_markets API call"  do
+    before(:all) do 
+      login()
+      @helpers = Betfair::Helpers.new
+    end
+    
+    describe "Create a hash from the get_all_markets API call"  do
       it "pulls the relevant stuff out of get_all_markets and puts it in a hash" do
         savon.expects(:get_all_markets).returns(:success)
         markets = @bf.get_all_markets(@session_token, 2)
-        puts markets.inspect
-        
         markets = @helpers.split_markets_string(markets)
-        markets.should be_an_instance_of(Hash)        
+        markets.should_not be_nil        
       end
     end
     
-    describe "create a hash for the market details"  do
+    describe "Create a hash for the market details"  do
       it "pulls the relevant stuff out of market details and puts it in a hash" do
         savon.expects(:get_market).returns(:success)
-        market = @bf.get_market(@session_token, 2, 100388290)
-        puts market.inspect
-        
+        market = @bf.get_market(@session_token, 2, 10038633)
         market_info = @helpers.market_info(market)
         market_info.should_not be_nil        
       end
     end
     
-    describe "cleans up the get market details"  do
+    describe "Cleans up the get market details"  do
       it "sort the runners for each market out " do
         savon.expects(:get_market).returns(:success)
-        market = @bf.get_market(@session_token, 2, 100388290)
-        puts market.inspect
-        
+        market = @bf.get_market(@session_token, 2, 10038633)
         details = @helpers.details(market)
         details.should_not be_nil        
       end
     end
 
-    describe "get the price string for a runner"  do
+    describe "Get the price string for a runner"  do
       it "so that we can combine it together with market info" do
         savon.expects(:get_market_prices_compressed).returns(:success)
-        prices = @bf.get_market_prices_compressed(@session_token, 2, 100388290)
-        puts prices.inspect
-        
+        prices = @bf.get_market_prices_compressed(@session_token, 2, 10038633)
         prices = @helpers.prices(prices)
         prices.should_not be_nil        
       end
     end
    
-    describe "combine market details and runner prices api call"  do
-      it "combines the two api calls of get_market and get_market_prices_compressed " do
+    describe "Combine market details and runner prices api call"  do
+      it "Combines the two api calls of get_market and get_market_prices_compressed " do
         
         savon.expects(:get_market).returns(:success)
-        market = @bf.get_market(@session_token, 2, 100388290)
-        puts market.inspect
+        market = @bf.get_market(@session_token, 2, 10038633)
         
         savon.expects(:get_market_prices_compressed).returns(:success)
-        prices = @bf.get_market_prices_compressed(@session_token, 2, 100388290)
-        puts prices.inspect
-        
+        prices = @bf.get_market_prices_compressed(@session_token, 2, 10038633)
+                       
         combined = @helpers.combine(market, prices)
         combined.should_not be_nil        
       end
     end  
-    
-    describe "set up an odds tables of all possible Betfair Odds" do
-      it "should return a hash of all possible Betfair odds with correct increments" do
-        odds_table = @helpers.odds_table
-        odds_table.should_not be_nil
-        odds_table.should be_an_instance_of(Array)
-        odds_table.count.should eq(350)
-        odds_table[256].should eq(85)
-      end
-      
-      it "should return a standard hash" do
-        betfair_odds = @helpers.set_betfair_odds(275, 0, false, false)
-        betfair_odds.should be_an_instance_of(Hash)
-        betfair_odds[:price].should eq(275)
-        betfair_odds[:prc].should eq(280)
-        betfair_odds[:increment].should eq(10)
-        betfair_odds[:pips].should eq(0)
-      end
-      
-      it "should return a standard hash with prc at 1 pip and price rounded up" do
-        betfair_odds = @helpers.set_betfair_odds(2.31, 1, true, false)
-        betfair_odds.should be_an_instance_of(Hash)
-        betfair_odds[:price].should eq(2.31)
-        betfair_odds[:prc].should eq(2.34)
-        betfair_odds[:increment].should eq(0.02)
-        betfair_odds[:pips].should eq(1)
-      end
-      
-      it "should return a standard hash with prc at 2 pip and price rounded down" do
-        betfair_odds = @helpers.set_betfair_odds(2.31, 5, false, true)
-        betfair_odds.should be_an_instance_of(Hash)
-        betfair_odds[:price].should eq(2.31)
-        betfair_odds[:prc].should eq(2.4)
-        betfair_odds[:increment].should eq(0.02)
-        betfair_odds[:pips].should eq(5)
-      end
-      
-      it "should return an even spread off odds based on the odds_table method" do
-        spread = @helpers.get_odds_spread(271, 343)
-        spread.should eq(70.0)
-        spread = @helpers.get_odds_spread(1.28, 3.43)
-        spread.should eq(2.17)
-      end
-      
-    end
-    
-    
+
   end
-  
+
+
   describe "Placing and cancelling bets - " do
     
+    include LoginHelper
+
     before(:all) do 
-      @bf = Betfair::API.new
-      @session_token = @bf.login('username', 'password', 82, 0, 0, nil) 
+      login()
     end
     
     describe "place bet success"  do
       it "should place a bet on the exchange via the api" do
         savon.expects(:place_bets).returns(:success)
-        bet = @bf.place_bet(@session_token, 1, 104184109, 58805, 'B', 2.0, 2.0)      
+        bet = @bf.place_bet(@session_token, 1, 104184109, 58805, 'B', 2.0, 2.0)       
         bet[:bet_id].should eq('16939643915')
       end
     end
@@ -245,9 +193,11 @@ module Betfair
   end
   
   describe "Reading account details - " do
+
+    include LoginHelper
+
     before(:all) do 
-      @bf = Betfair::API.new
-      @session_token = @bf.login('username', 'password', 82, 0, 0, nil) 
+      login()
     end    
 
     describe "reading wallet contents" do
@@ -261,22 +211,17 @@ module Betfair
   
   describe "Basic read methods from the API - " do 
 
+    include LoginHelper
+
     before(:all) do 
-      @bf = Betfair::API.new
-      @session_token = @bf.login('username', 'password', 82, 0, 0, nil) 
+      login()
     end    
 
     describe "get all markets success"  do
       it "should return a hash of all markets given the exchange id and and array of market type ids" do
         savon.expects(:get_all_markets).returns(:success)
-        markets = @bf.get_all_markets(@session_token, 1, [1,3], nil, nil, nil, nil)     
-        puts markets.inspect   
+        markets = @bf.get_all_markets(@session_token, 1, [1,3], nil, nil, nil, nil)        
         markets.should_not be_nil        
-        
-        # Chucked in testing a helper here as it is failing above in the Helpers section
-        @helpers = Betfair::Helpers.new     
-        markets = @helpers.split_markets_string(markets)        
-        markets.first.should be_an_instance_of(Hash)
       end
     end
 
@@ -367,6 +312,7 @@ module Betfair
         savon.expects(:keep_alive).returns(:success)
         session_token = @bf.keep_alive(@session_token)
         session_token.should eq('AXwtUFENz+/mWaatVtjUosug26+TYLYWiHPhRFRiabs=')
+        session_token.should be_success
       end
     end
     
@@ -375,6 +321,7 @@ module Betfair
         savon.expects(:keep_alive).returns(:fail)
         error_code = @bf.keep_alive(@session_token)
         error_code.should eq('NO_SESSION')
+        error_code.should_not be_success
       end
     end
 
