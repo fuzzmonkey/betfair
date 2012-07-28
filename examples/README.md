@@ -1,3 +1,3 @@
 # Betfair SDK
 
-Check it out here [RubyGems](https://github.com/lukebyrne/betfair_sdk)
+Check it out here [Betfair SDK](https://github.com/lukebyrne/betfair_sdk)
