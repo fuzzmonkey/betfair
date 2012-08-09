@@ -62,7 +62,7 @@ module Betfair
         combined.should_not be_nil        
       end
     end  
-asdsa
+
 		describe "set up an odds tables of all possible Betfair Odds" do
 			it "should return a hash of all possible Betfair odds with correct increments" do
 			  odds_table = @helpers.odds_table
