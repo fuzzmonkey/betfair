@@ -326,8 +326,10 @@ module Betfair
       # Pass the `region` (see ENDPOINTS for valid values) to pick the
       # WSDL endpoint and namespace.  `proxy` should be a string URL
       # for HTTPI to use as a proxy setting.
-      def initialize( region, proxy )
+      def initialize( region, proxy, em_http = false)
+				HTTPI::Adapter.use = :em_http if em_http == true
         @client = Savon::Client.new do |wsdl, http|
+					
           wsdl.endpoint  = ENDPOINTS[region]
           wsdl.namespace = NAMESPACES[region]
           http.proxy = proxy if proxy

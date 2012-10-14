@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rake'
 gem 'savon', '<= 0.8.6'
+gem 'httpi' #, :git => 'git://github.com/RISCfuture/httpi.git', :branch => 'master'
 gem 'gemcutter'
 
 gem 'rspec'
