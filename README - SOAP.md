@@ -21,7 +21,7 @@ From a Gemfile
 
 Load the general api class
 
-    bf = Betfair::API.new
+    bf = Betfair::SOAP.new
 
 If you want to use a proxy or turn on Savon's logging then just pass
 in like so:
@@ -31,7 +31,7 @@ machine to access the host server in UK for dev purposes.
 
     proxy = 'http://localhost:8888'
     logging = true
-    bf = Betfair::API.new(proxy, logging)
+    bf = Betfair::SOAP.new(proxy, logging)
 
 Proxies can be useful if you want to host on a cloud service such as
 Heroku, as you will be denied access to the Betfair API from the
@@ -220,7 +220,7 @@ The API CancelBets service allows you to cancel multiple unmatched (1 to 40) bet
 # Helpers #
 There are a bunch of helper methods to help you handle the output from the various API calls.
 
-    helpers = Betfair::Helpers.new
+    helpers = Betfair::SOAPHelpers.new
 
 ## All Markets ##
 When you call
