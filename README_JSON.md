@@ -24,7 +24,7 @@ From a Gemfile
 
 ## Get a session token using the SOAP API ##
 ### This will change when the SOAP API is deprecated
-    @bf_soap = Befair::SOAP.new
+    @bf_soap = Betfair::SOAP.new
     session_token = @bf_soap.login('username', 'password')
 
 ## Initialize the JSONRPC API ##
