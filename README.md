@@ -4,16 +4,6 @@
 
 [SOAP README](/SOAP_README.md)
 
-https://github.com/lukebyrne/betfair/tree/json
-
-
-## Contribute ##
-I have only added the Betfair API method calls that I need.
-
-Feel free to fork this repo, add what you need to with the relevant
-RSpec tests and send me a pull request.
-
-
 ## License ##
 (The MIT License)
 

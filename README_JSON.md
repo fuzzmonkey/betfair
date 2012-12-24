@@ -3,11 +3,15 @@
 
 
 ## Contribute ##
-I have only added the Betfair API method calls that I need.
+Betfair is currently building out its new API based on RESTful JSON approach.
 
-Feel free to fork this repo, add what you need to with the relevant
-RSpec tests and send me a pull request.
+If you wish to contribute please for this repo, add any API calls or helper methods that you like.
 
+Please make sure they are well tested and give me a pull request.
+
+You will need to email bdp@betfair.com asking for an application key to access the JSON version of the API.
+
+Tell them you are contributing to this gem.
 
 ## License ##
 (The MIT License)
