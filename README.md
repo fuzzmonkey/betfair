@@ -1,8 +1,8 @@
 # BETFAIR API #
 
-[JSON README](JSON_README.md)
+[JSON README](/JSON_README.md)
 
-[SOAP README](SOAP_README.md)
+[SOAP README](/SOAP_README.md)
 
 https://github.com/lukebyrne/betfair/tree/json
 
