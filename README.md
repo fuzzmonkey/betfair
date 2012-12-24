@@ -7,7 +7,7 @@
 ## License ##
 (The MIT License)
 
-Copyright (c) 2011 Luke Byrne
+Copyright (c) 2012 Luke Byrne
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
