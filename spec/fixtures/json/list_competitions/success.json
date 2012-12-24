@@ -1,0 +1,69 @@
+{
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "competition": {
+                "id": "2372210",
+                "name": "Fed Cup 2013"
+            },
+            "marketCount": 1
+        },
+        {
+            "competition": {
+                "id": "2203993",
+                "name": "French Open 2013"
+            },
+            "marketCount": 4
+        },
+        {
+            "competition": {
+                "id": "2269816",
+                "name": "The Open Championship 2013"
+            },
+            "marketCount": 1
+        },
+        {
+            "competition": {
+                "id": "2203707",
+                "name": "US Open 2013"
+            },
+            "marketCount": 4
+        },
+        {
+            "competition": {
+                "id": "2467323",
+                "name": "Mubadala World Tennis 2012 (Exhibition Event)"
+            },
+            "marketCount": 5
+        },
+        {
+            "competition": {
+                "id": "2203705",
+                "name": "Wimbledon 2013"
+            },
+            "marketCount": 4
+        },
+        {
+            "competition": {
+                "id": "2244972",
+                "name": "US Masters 2013"
+            },
+            "marketCount": 2
+        },
+        {
+            "competition": {
+                "id": "2352775",
+                "name": "Tennis Specials 2013"
+            },
+            "marketCount": 36
+        },
+        {
+            "competition": {
+                "id": "2371932",
+                "name": "Davis Cup 2013"
+            },
+            "marketCount": 2
+        }
+    ],
+    "id": 1
+}

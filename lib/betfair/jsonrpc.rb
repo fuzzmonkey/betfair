@@ -4,15 +4,15 @@ module Betfair
 
   class JSONRPC
 
-    attr_accessor :session_token, :header
+    attr_accessor :app_key, :session_token, :headers
 
     BASE_URI = 'https://beta-api.betfair.com/json-rpc'
-    RestClient.log=($stdout)
 
-    def initialize(app_key, username, password)
-      bf = Betfair::SOAP.new
-      @session_token = bf.login(username, password, 82, 0, 0, nil)
-      @headers = { 'X-Application' => app_key,  'X-Authentication' => @session_token }
+    def initialize(application_key, session_token)
+      RestClient.log=($stdout)
+      @app_key = app_key
+      @session_token = session_token
+      @headers = { 'X-Application' => application_key,  'X-Authentication' => @session_token }
     end
 
     def list_competitions(event_type_ids = [])

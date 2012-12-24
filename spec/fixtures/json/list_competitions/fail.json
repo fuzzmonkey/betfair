@@ -1,0 +1,16 @@
+{
+    "jsonrpc": "2.0",
+    "error": {
+        "code": -32099,
+        "message": "ANGX-0003",
+        "data": {
+            "exceptionname": "APINGException",
+            "APINGException": {
+                "errorDetails": "The session token passed has expired",
+                "errorCode": "INVALID_SESSION_INFORMATION",
+                "requestUUID": "prdang004-12121028-00000c965b"
+            }
+        }
+    },
+    "id": 1
+}

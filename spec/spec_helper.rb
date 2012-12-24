@@ -1,7 +1,10 @@
-# require 'simplecov'
-# SimpleCov.start
-
 require 'betfair'
+require 'webmock/rspec'
+
+
+###########
+## Everything below here can go when the SOAP API is deprecated
+###########
 require 'savon_spec'
 
 RSpec.configure do |config|

@@ -5,8 +5,7 @@
 
 Install it with [RubyGems](http://rubygems.org/gems/betfair)
 
-      gem install betfair (note version 1.0.6 will be the last supported version for the SOAP API. It will deprecated from the Gem once the new JSON
-                          API is complete)
+      gem install betfair
 
 or add this to your Gemfile if you use [Bundler](http://gembundler.com/):
 
@@ -21,29 +20,29 @@ From a Gemfile
 
     gem 'betfair', '>=1.0.7'
 
-Load the general api class
-
-    @bf = Betfair::JSONRPC.new
-
-
 # API METHODS #
 
-## Initialize API ##
+## Get a session token using the SOAP API ##
+### This will change when the SOAP API is deprecated
+    @bf_soap = Befair::SOAP.new
+    session_token = @bf_soap.login('username', 'password')
 
-    @bf = Betfair::JSONRPC.new('app_key', 'username', 'password')
+## Initialize the JSONRPC API ##
+
+    @bf = Betfair::JSONRPC.new('application_key', session_token)
 
 ## List competitions ##
 
-    @bf.list_competitions([1,2,3,4])
+    @bf.list_competitions([2,3])
 
 
 # To Do #
-* WRITE TESTS, need to work out best way to do this
+* WRITE WEBMOCK TESTS, need to work out best way to do this
 
 ## Contribute ##
-Betfair is currently building out its new API based on RESTful JSON approach.
+Betfair is currently building out its new API based on a RESTful JSON approach.
 
-If you wish to contribute please for this repo, add any API calls or helper methods that you like.
+If you wish to contribute please fork this repo, add any API calls or helper methods that you like.
 
 Please make sure they are well tested and give me a pull request.
 

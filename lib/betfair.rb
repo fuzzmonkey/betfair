@@ -1,7 +1,10 @@
 require 'betfair/version'
+require 'betfair/jsonrpc'
+require 'betfair/jsonrpc_helpers'
 
-
-# These are the gems required to access the old SOAP API - they will be deprecated at some point
+###########
+## Everything below here can go when the SOAP API is deprecated
+###########
 require 'savon'
 require 'betfair/soap'
 require 'betfair/soap_helpers'

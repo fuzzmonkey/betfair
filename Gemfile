@@ -2,9 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rake'
 gem 'gemcutter'
-gem 'httparty'
-
-
+gem 'rest-client'
+gem 'webmock'
 
 # These are the gems required to access the old SOAP API - they will be deprecated at some point
 gem 'httpi' #, :git => 'git://github.com/RISCfuture/httpi.git', :branch => 'master'

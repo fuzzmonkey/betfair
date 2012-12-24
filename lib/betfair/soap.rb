@@ -232,7 +232,7 @@ module Betfair
       return response.maybe_result
     end
 
-    def login(username, password, product_id, vendor_software_id, location_id, ip_address)
+    def login(username, password, product_id = 82, vendor_software_id = 0, location_id = 0, ip_address = nil)
       response = @global_service.request( :login,
                                           :login_response,
                                           :username         => username,
