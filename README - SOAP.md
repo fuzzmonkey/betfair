@@ -4,11 +4,12 @@
 
 Install it with [RubyGems](http://rubygems.org/gems/betfair)
 
-      gem install betfair
+      gem install betfair (note version 1.0.6 will be the last supported version for the SOAP API. It will deprecated from the Gem once the new JSON
+                          API is complete)
 
 or add this to your Gemfile if you use [Bundler](http://gembundler.com/):
 
-      gem 'betfair'
+      gem 'betfair', '<=1.0.6'
 
 ## Introduction
 In a irb console
@@ -17,7 +18,7 @@ In a irb console
 
 From a Gemfile
 
-    gem 'betfair'
+    gem 'betfair', '<=1.0.6'
 
 Load the general api class
 
@@ -376,12 +377,7 @@ trying to set a threshold on when to place a bet.
 * rake
 
 ## To Do ##
-* Add gzip support option
-* Add em-http support as per this once this gets pulled https://github.com/rubiii/httpi/pull/40
-* The WOM of money in Helpers#price_string returns 0 if either all b1,b2,b3 or l1,l2,l3 are all 0
-* Add some error checking to the Betfair::Helper methods
-* Finish of the mash method, to return a nice hash of all market and selection info
-* Write a spec for the mashed method
+* The SOAP version of the gem will be deprecated in a few releases.
 
 ## Contribute ##
 I have only added the Betfair API method calls that I need.
