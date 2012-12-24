@@ -30,11 +30,11 @@ Load the general api class
 
 ## Initialize API ##
 
-  @bf = Betfair::JSONRPC.new('app_key', 'username', 'password')
+    @bf = Betfair::JSONRPC.new('app_key', 'username', 'password')
 
 ## List competitions ##
 
-  @bf.list_competitions([1,2,3,4])
+    @bf.list_competitions([1,2,3,4])
 
 
 # To Do #
