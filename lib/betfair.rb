@@ -1,10 +1,9 @@
 require 'betfair/version'
-require 'betfair/jsonrpc'
-require 'betfair/jsonrpc_helpers'
+require 'betfair/jsonrpc/jsonrpc_client'
 
 ###########
 ## Everything below here can go when the SOAP API is deprecated
 ###########
 require 'savon'
-require 'betfair/soap'
-require 'betfair/soap_helpers'
+require 'betfair/soap/soap'
+require 'betfair/soap/soap_helpers'

@@ -21,3 +21,7 @@ module LoginHelper
     @session_token = @bf.login('username', 'password', 82, 0, 0, nil)
   end
 end
+
+def load_body filename
+  IO.read File.expand_path('../fixtures/', __FILE__) + "/#{filename}"
+end

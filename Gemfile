@@ -4,6 +4,7 @@ gem 'rake'
 gem 'gemcutter'
 gem 'rest-client'
 gem 'webmock'
+gem 'faraday'
 
 # These are the gems required to access the old SOAP API - they will be deprecated at some point
 gem 'httpi' #, :git => 'git://github.com/RISCfuture/httpi.git', :branch => 'master'

@@ -4,52 +4,17 @@ module Betfair
 
   describe "General API Methods" do
 
-
-    ###########
-    ## For the time being we need to get the session_token using the old SOAP API
-    ## This is well tested in the SOAP Specs
-    ## This can go when the SOAP API is deprecated
-    ###########
-    include LoginHelper
-
-    before(:all) do
-      login()
+    before :all do
+      @client = Betfair::JSONRPC::Client.new({:adapter => :net_http})
+      @client.setup_connection 'foo', 'bar'
     end
-
-
-    describe "login() function should give us a session_token from the old SOAP API" do
-      it "should be a long string" do
-        @session_token.should eq 'ws2RTxfNCiFjBEmVMQuPyxMbobl1FA+vf//K7CGQoUo='
-      end
-    end
-
-    ###########
-    ## The start of the actual JSONRPC Specs
-    ###########
 
     describe "list competitions API call given an array of sporting ids" do
-      it "should return an array" do
+      it "should return an array of competitions" do
+        stub_request(:post, 'https://beta-api.betfair.com/json-rpc').to_return(:body => load_body("json/list_competitions/success.json"))
 
-
-
-        bf = Betfair::JSONRPC.new('faketoken', @session_token)
-
-        stub_request(:post, 'https://beta-api.betfair.com/json-rpc')
-        .with(body: { jsonrpc: '2.0',
-                    method: 'SportsAPING/v1.0/listCompetitions',
-                    params: {
-                      filter: {
-                        eventTypeIds: [2,3]
-                      }
-                    },
-                    id: 1
-                  },
-              headers: bf.headers
-              )
-        .to_return(:body => 'fake body')
-        RestClient.get('http://host/api')
-        WebMock.should have_requested(:get ,'http://host/api')
-
+        rsp = @client.list_competitions []
+        rsp.should eq [{:id=>"2372210", :name=>"Fed Cup 2013", :market_count=>1}, {:id=>"2203993", :name=>"French Open 2013", :market_count=>4}, {:id=>"2269816", :name=>"The Open Championship 2013", :market_count=>1}, {:id=>"2203707", :name=>"US Open 2013", :market_count=>4}, {:id=>"2467323", :name=>"Mubadala World Tennis 2012 (Exhibition Event)", :market_count=>5}, {:id=>"2203705", :name=>"Wimbledon 2013", :market_count=>4}, {:id=>"2244972", :name=>"US Masters 2013", :market_count=>2}, {:id=>"2352775", :name=>"Tennis Specials 2013", :market_count=>36}, {:id=>"2371932", :name=>"Davis Cup 2013", :market_count=>2}]
       end
     end
 
