@@ -29,15 +29,16 @@ From a Gemfile
 
 ## Initialize the JSONRPC API ##
 
-    @bf = Betfair::JSONRPC.new('application_key', session_token)
+    @bf = Betfair::JSONRPC::Client.new
+    @bf.setup_connection 'application_key', session_token
 
 ## List competitions ##
 
-    @bf.list_competitions([2,3])
+    @bf.list_competitions [2,3] #array of event type ids
 
+## List market book ##
 
-# To Do #
-* WRITE WEBMOCK TESTS, need to work out best way to do this
+    @bf.list_market_book [1234,1235] #array of market ids
 
 ## Contribute ##
 Betfair is currently building out its new API based on a RESTful JSON approach.
